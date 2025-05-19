@@ -61,11 +61,13 @@ public class FactorialApp {
         writeExecutor.submit(new WriterTask(computeToWriteQueue, writer, isDone));
         writeExecutor.shutdown();
 
-        isDone.set(true);
+
         boolean terminated = computePool.awaitTermination(NUM_COMPUTE_THREADS * 10L, TimeUnit.SECONDS);
         if (!terminated) {
             System.err.println("Some threads of computePool did not finish within the allotted time.");
         }
+        writer.close();
+        isDone.set(true);
         GlobalRateLimiter.shutdown();
 
     }

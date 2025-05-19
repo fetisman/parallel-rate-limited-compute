@@ -33,6 +33,5 @@ public class WriterTask implements Runnable {
                 }
             }
         }
-        writer.close();
     }
 }
