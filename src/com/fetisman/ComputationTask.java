@@ -28,7 +28,10 @@ public class ComputationTask implements Runnable {
                 computeToWriteQueue.add(new IndexedResult(val.index(), val.value(), fact));
             }
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            System.err.println("ComputationTask interrupted: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Unexpected error in ComputationTask: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }

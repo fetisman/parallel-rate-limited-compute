@@ -35,8 +35,10 @@ public class ReaderTask implements Runnable {
             for (int i = 0; i < numComputeThreads; i++) {
                 readToComputeQueue.put(new IndexedValue(index++, Integer.MIN_VALUE)); // the signal to entire of threads in the pool about read data end
             }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (InterruptedException e) {
+            System.err.println("ReaderTask interrupted: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("ReaderTask I/O error: " + e.getMessage());
         }
     }
 }

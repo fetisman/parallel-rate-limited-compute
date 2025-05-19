@@ -23,15 +23,21 @@ public class WriterTask implements Runnable {
             IndexedResult peeked;
             if ((peeked = computeToWriteQueue.peek()) != null && peeked.index() == expectedIndex.get()) {
                 IndexedResult result = computeToWriteQueue.poll();
-                writer.println(result.value() + " = " + result.result());
+                try {
+                    writer.println(result.value() + " = " + result.result());
+                } catch (Exception e) {
+                    System.err.println("Error while writing to file: " + e.getMessage());
+                    e.printStackTrace();
+                }
                 expectedIndex.incrementAndGet();
             } else {
                 try {
                     Thread.sleep(10); // prevents busy waiting
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println(e.getMessage());
                 }
             }
         }
     }
+
 }
